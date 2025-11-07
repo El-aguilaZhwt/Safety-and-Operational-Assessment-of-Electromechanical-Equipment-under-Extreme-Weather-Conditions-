@@ -17,6 +17,7 @@
 - **实时数据监控**：温度、湿度、风速、PM2.5/PM10 等多维度数据实时呈现
 - **气象预警集成**：极端天气预警与运行风险评估
 - **地理信息融合**：和田地区地理信息系统与设备分布结合
+![image](https://github.com/El-aguilaZhwt/Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-/blob/main/screen/%E6%95%B0%E5%AD%97%E5%AD%AA%E7%94%9F%E5%A4%A7%E5%B1%8F.png)
 
 ### ⚡ 智能评估预警
 - **多因子风险评估**：基于气象数据的设备运行风险智能评估
