@@ -31,6 +31,7 @@
 - 多角色权限控制（管理员、操作员、访客）
 - 会话管理安全机制
 - 操作日志记录
+![image](https://github.com/El-aguilaZhwt/Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-/blob/main/screen/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2.png)
 
 ### 2. 实时数据监控
 - 传感器数据采集与存储
