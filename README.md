@@ -18,6 +18,7 @@
 - **气象预警集成**：极端天气预警与运行风险评估
 - **地理信息融合**：和田地区地理信息系统与设备分布结合
 ![image](https://github.com/El-aguilaZhwt/Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-/blob/main/screen/%E6%95%B0%E5%AD%97%E5%AD%AA%E7%94%9F%E5%A4%A7%E5%B1%8F.png)
+![image](https://github.com/El-aguilaZhwt/Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-/blob/main/screen/%E5%8A%A8%E7%94%BB.png)
 
 ### ⚡ 智能评估预警
 - **多因子风险评估**：基于气象数据的设备运行风险智能评估
