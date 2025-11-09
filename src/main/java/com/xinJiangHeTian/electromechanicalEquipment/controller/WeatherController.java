@@ -1,114 +1,98 @@
 package com.xinJiangHeTian.electromechanicalEquipment.controller;
 
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.ApiResponse;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.weatherDto.CountyRequest;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.weatherDto.CurrentWeather;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.weatherDto.WeatherResponse;
 import com.xinJiangHeTian.electromechanicalEquipment.service.WeatherService;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author El aguila
  * @version 1.0
- * @description:  * 气象数据控制器
- *  * 处理气象数据查询、坐标保存等相关请求
- * @date 2025/11/8 00:00
+ * @description: 数字孪生大屏后台控制层
+ * @date 2025/11/8 23:06
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/weather")
+@Validated
 public class WeatherController {
 
-    private final WeatherService weatherService;
+    @Autowired
+    private WeatherService weatherService;
 
-    /**
-     * 构造函数，依赖注入WeatherService
-     * @param weatherService 气象服务类实例
-     */
-    public WeatherController(WeatherService weatherService) {
-        this.weatherService = weatherService;
-    }
 
-    /**
-     * 首页数据接口
-     * 获取用户身份信息和默认位置的气象数据
-     * @param session HTTP会话对象，用于获取用户登录状态
-     * @return 包含用户身份、用户名和气象数据的响应实体
-     */
-    @GetMapping("/home")
-    public ResponseEntity<?> home(HttpSession session) {
-        // 从会话中获取用户身份和用户名
-        String identity = (String) session.getAttribute("identity");
-        String username = (String) session.getAttribute("username");
+    // 获取县区天气数据
+    @PostMapping("/county-data")
+    public ApiResponse<WeatherResponse> getCountyWeatherData(@Validated @RequestBody CountyRequest request) throws Exception {
+        // 处理县区天气数据请求
+        // 根据县区名称查询坐标信息
+        Map<String, Double> coordinates = weatherService.getCoordinatesByCounty(request.getCounty());
 
-        // 如果身份为空，默认为访客身份
-        if (identity == null) identity = "visitor";
+        WeatherResponse response = new WeatherResponse();
 
-        // 构建响应对象
-        Map<String, Object> response = new HashMap<>();
-        response.put("identity", identity);
-        response.put("username", username);
+        if (coordinates != null) {
+            // 提取经纬度坐标
+            Double lon = coordinates.get("lon");
+            Double lat = coordinates.get("lat");
 
-        try {
-            // 设置默认坐标（示例坐标）
-            Double lon = 81.27;
-            Double lat = 36.69;
+            // 根据坐标获取气象数据
+            CurrentWeather weatherData = weatherService.getWeatherData(lon, lat);
 
-            // 调用服务层获取气象数据
-            Map<String, Object> weatherData = weatherService.getWeatherData(lon, lat);
-            response.put("weather_data", weatherData);
-
-        } catch (Exception e) {
-            // 气象数据获取失败时返回空对象，保证接口不报错
-            response.put("weather_data", new HashMap<>());
+            //将CurrentWeather注入WeatherResponse
+            response.setCurrentWeather(weatherData);
+        } else {
+            // 坐标查询失败：返回错误信息
+            return ApiResponse.error("无法找到该县的坐标信息", 401);
         }
-
-        return ResponseEntity.ok(response);
+        return ApiResponse.success("实时数据响应成功",response);
     }
 
-    /**
-     * 保存坐标并获取气象数据接口
-     * 根据县区名称查询坐标并获取对应气象数据
-     * @param data 请求数据，包含县区名称
-     * @return 包含操作状态、县区信息和气象数据的响应实体
-     */
-    @PostMapping("/save-coordinates")
-    public ResponseEntity<?> saveCoordinates(@RequestBody Map<String, String> data) {
-        // 从请求体中提取县区名称
-        String county = data.get("county");
+    //县初始实时气象数据（用于最初打开屏幕）
+    @PostMapping("/initial-data")
+    public ApiResponse<WeatherResponse> getInitialCountyWeatherData() throws Exception {
+        WeatherResponse response = new WeatherResponse();
+        Map<String,Double> coordinates = weatherService.getInitialWeatherData();
+        if (coordinates != null) {
+            // 提取经纬度坐标
+            Double lon = coordinates.get("lon");
+            Double lat = coordinates.get("lat");
 
-        try {
-            // 根据县区名称查询坐标信息
-            Map<String, Double> coordinates = weatherService.getCoordinatesByCounty(county);
+            // 根据坐标获取气象数据
+            CurrentWeather weatherData = weatherService.getWeatherData(lon, lat);
 
-            if (coordinates != null) {
-                // 提取经纬度坐标
-                Double lon = coordinates.get("lon");
-                Double lat = coordinates.get("lat");
+            //将CurrentWeather注入WeatherResponse
+            response.setCurrentWeather(weatherData);
+        } else {
+            // 坐标查询失败：返回错误信息
+            return ApiResponse.error("页面实时气象数据初始化失败", 401);
+        }
+        return ApiResponse.success("实时数据响应成功",response);
+    }
+    // 根据经纬度获取预报数据
+    @GetMapping("/forecast")
+    public ApiResponse<WeatherResponse> getForecastData(
+            @RequestParam double lon,
+            @RequestParam double lat) throws Exception {
+        return ApiResponse.success(weatherService.getForecastByCoordinate(lon, lat));
+    }
 
-                // 根据坐标获取气象数据
-                Map<String, Object> weatherData = weatherService.getWeatherData(lon, lat);
-
-                // 构建成功响应
-                Map<String, Object> response = new HashMap<>();
-                response.put("status", "success");
-                response.put("county", county);
-                response.put("weather", weatherData);
-
-                return ResponseEntity.ok(response);
-            } else {
-                // 坐标查询失败：返回错误信息
-                Map<String, Object> response = new HashMap<>();
-                response.put("status", "error");
-                response.put("message", "无法找到该县的坐标信息");
-                return ResponseEntity.badRequest().body(response);
-            }
-        } catch (Exception e) {
-            // 服务器内部错误处理
-            Map<String, Object> response = new HashMap<>();
-            response.put("status", "error");
-            response.put("message", "数据保存失败");
-            return ResponseEntity.internalServerError().body(response);
+    // 根据县名称获取预报数据
+    @PostMapping("/forecast-county")
+    public ApiResponse<WeatherResponse> getForecastDataByCounty(
+            @Validated @RequestBody CountyRequest request) throws Exception {
+        Map<String,Double> coordinates = weatherService.getInitialWeatherData();
+        if (coordinates != null) {
+            // 提取经纬度坐标
+            Double lon = coordinates.get("lon");
+            Double lat = coordinates.get("lat");
+            return ApiResponse.success(weatherService.getForecastByCoordinate(lon, lat));
+        }else{
+            return ApiResponse.error("七日气象预报数据初始化失败", 401);
         }
     }
 }

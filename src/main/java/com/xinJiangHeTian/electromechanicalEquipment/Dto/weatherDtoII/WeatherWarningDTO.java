@@ -1,6 +1,4 @@
-package com.xinJiangHeTian.electromechanicalEquipment.Dto.weatherDto;
-
-import lombok.Data;
+package com.xinJiangHeTian.electromechanicalEquipment.Dto.weatherDtoII;
 
 import lombok.Data;
 

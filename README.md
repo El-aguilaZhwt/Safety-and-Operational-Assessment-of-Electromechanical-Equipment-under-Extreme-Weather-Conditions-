@@ -1,6 +1,6 @@
-# Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-
-新疆和田地区极端气候下的机电设备安全运行评估系统
-# 新疆和田地区极端气候下的机电设备安全运行评估系统
+# Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-of-Hetian-XinJiang/backend
+新疆和田地区极端气候下的机电设备安全运行评估系统后端部分
+# 新疆和田地区极端气候下的机电设备安全运行评估系统后端部分
 
 > Xinjiang Hotan Region Electromechanical Equipment Safety Assessment System under Extreme Climate
 
@@ -17,6 +17,8 @@
 - **实时数据监控**：温度、湿度、风速、PM2.5/PM10 等多维度数据实时呈现
 - **气象预警集成**：极端天气预警与运行风险评估
 - **地理信息融合**：和田地区地理信息系统与设备分布结合
+![image](https://github.com/El-aguilaZhwt/Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-/blob/main/screen/%E6%95%B0%E5%AD%97%E5%AD%AA%E7%94%9F%E5%A4%A7%E5%B1%8F.png)
+![image](https://github.com/El-aguilaZhwt/Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-/blob/main/screen/%E5%8A%A8%E7%94%BB.png)
 
 ### ⚡ 智能评估预警
 - **多因子风险评估**：基于气象数据的设备运行风险智能评估
@@ -31,6 +33,7 @@
 - 多角色权限控制（管理员、操作员、访客）
 - 会话管理安全机制
 - 操作日志记录
+![image](https://github.com/El-aguilaZhwt/Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-/blob/main/screen/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2.png)
 
 ### 2. 实时数据监控
 - 传感器数据采集与存储

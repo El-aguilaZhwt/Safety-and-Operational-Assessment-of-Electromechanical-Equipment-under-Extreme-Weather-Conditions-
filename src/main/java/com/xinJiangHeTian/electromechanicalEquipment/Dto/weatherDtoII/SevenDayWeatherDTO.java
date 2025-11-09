@@ -1,4 +1,4 @@
-package com.xinJiangHeTian.electromechanicalEquipment.Dto.weatherDto;
+package com.xinJiangHeTian.electromechanicalEquipment.Dto.weatherDtoII;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

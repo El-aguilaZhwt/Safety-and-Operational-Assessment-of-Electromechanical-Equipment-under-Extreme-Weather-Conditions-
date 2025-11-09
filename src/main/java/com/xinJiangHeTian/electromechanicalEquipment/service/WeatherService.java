@@ -2,6 +2,9 @@ package com.xinJiangHeTian.electromechanicalEquipment.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.weatherDto.CurrentWeather;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.weatherDto.ForecastData;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.weatherDto.WeatherResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -32,7 +35,7 @@ public class WeatherService {
             "且末县", Map.of("lon", 85.5167, "lat", 38.1167)
     );
 
-    public Map<String, Object> getWeatherData(Double lon, Double lat) throws Exception {
+    public CurrentWeather getWeatherData(Double lon, Double lat) throws Exception {
         String weatherUrl = String.format(
                 "https://devapi.qweather.com/v7/weather/now?key=%s&location=%s,%s",
                 apiKey, lon, lat
@@ -42,7 +45,7 @@ public class WeatherService {
                 apiKey, lon, lat
         );
 
-        Map<String, Object> weatherData = new HashMap<>();
+        CurrentWeather weatherData = new CurrentWeather();
 
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             // 获取天气数据
@@ -55,30 +58,31 @@ public class WeatherService {
             String airResponse = EntityUtils.toString(client.execute(airRequest).getEntity());
             JsonNode airJson = objectMapper.readTree(airResponse);
 
-            weatherData.put("temperature", weatherJson.path("now").path("temp").asDouble());
-            weatherData.put("humidity", weatherJson.path("now").path("humidity").asDouble());
-            weatherData.put("wind_speed", weatherJson.path("now").path("windSpeed").asDouble());
-            weatherData.put("pm25", airJson.path("now").path("pm2p5").asDouble());
-            weatherData.put("pm10", airJson.path("now").path("pm10").asDouble());
+            weatherData.setTemperature(weatherJson.path("now").path("temp").asDouble());
+            weatherData.setHumidity(weatherJson.path("now").path("humidity").asDouble());
+            weatherData.setWindSpeed(weatherJson.path("now").path("windSpeed").asDouble());
+            weatherData.setPm25(airJson.path("now").path("pm2p5").asDouble());
+            weatherData.setPm10(airJson.path("now").path("pm10").asDouble());
 
         } catch (Exception e) {
-            weatherData.put("temperature", "N/A");
-            weatherData.put("humidity", "N/A");
-            weatherData.put("wind_speed", "N/A");
-            weatherData.put("pm25", "N/A");
-            weatherData.put("pm10", "N/A");
+            weatherData.setTemperature(-1.0);
+            weatherData.setHumidity(-1.0);
+            weatherData.setWindSpeed(-1.0);
+            weatherData.setPm25(-1.0);
+            weatherData.setPm10(-1.0);
         }
 
         return weatherData;
     }
 
-    public List<Map<String, Object>> getSevenDayWeather(Double lon, Double lat) throws Exception {
+    public List<ForecastData> getSevenDayWeather(Double lon, Double lat) throws Exception {
         String weatherUrl = String.format(
                 "https://devapi.qweather.com/v7/weather/7d?key=%s&location=%s,%s",
                 apiKey, lon, lat
         );
 
-        List<Map<String, Object>> weatherDataList = new ArrayList<>();
+
+        List<ForecastData> forecastDataList = new ArrayList<>();
 
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpGet request = new HttpGet(weatherUrl);
@@ -87,23 +91,36 @@ public class WeatherService {
 
             JsonNode daily = json.path("daily");
             for (JsonNode day : daily) {
-                Map<String, Object> dailyData = new HashMap<>();
-                dailyData.put("date", day.path("fxDate").asText());
-                dailyData.put("temperature_min", day.path("tempMin").asDouble());
-                dailyData.put("temperature_max", day.path("tempMax").asDouble());
-                dailyData.put("humidity", day.path("humidity").asDouble());
-                dailyData.put("wind_speed", day.path("windSpeedDay").asDouble());
-                dailyData.put("wind_direction", day.path("wind360Day").asText());
-                weatherDataList.add(dailyData);
+                ForecastData forecastData = new ForecastData();
+                forecastData.setDate(day.path("fxDate").asText());
+                forecastData.setTemperatureMin(day.path("tempMin").asDouble());
+                forecastData.setTemperatureMax(day.path("tempMax").asDouble());
+                forecastData.setHumidity(day.path("humidity").asDouble());
+                forecastData.setWindSpeed(day.path("windSpeedDay").asDouble());
+                forecastData.setWindDirection(Integer.parseInt(day.path("wind360Day").asText()));
+                forecastDataList.add(forecastData);
             }
         } catch (Exception e) {
             // 处理异常
         }
 
-        return weatherDataList;
+        return forecastDataList;
     }
-
+    //
     public Map<String, Double> getCoordinatesByCounty(String county) {
         return countyCoordinates.get(county);
+    }
+
+    public Map<String, Double> getInitialWeatherData() {
+        return countyCoordinates.get("和田市");
+    }
+
+    //获取七日气象数据
+    public WeatherResponse getForecastByCoordinate(double lon, double lat) throws Exception {
+        WeatherResponse response = new WeatherResponse();
+        // 根据坐标获取七日气象数据
+        List<ForecastData> forecastDataList = getSevenDayWeather(lon,lat);
+        response.setForecastData(forecastDataList);
+        return response;
     }
 }
