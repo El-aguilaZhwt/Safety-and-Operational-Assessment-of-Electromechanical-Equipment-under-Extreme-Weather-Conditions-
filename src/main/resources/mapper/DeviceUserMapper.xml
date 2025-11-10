@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinJiangHeTian.electromechanicalEquipment.mapper.deviceMapper.DeviceUserMapper">
+
+    <resultMap id="DeviceUserResultMap" type="com.xinJiangHeTian.electromechanicalEquipment.entity.DeviceUser">
+        <id column="id" property="id" />
+        <result column="device_id" property="deviceId" />
+        <result column="user_id" property="userId" />
+        <result column="is_owner" property="isOwner" />
+        <result column="added_time" property="addedTime" />
+    </resultMap>
+
+    <insert id="insertDeviceUser" parameterType="com.xinJiangHeTian.electromechanicalEquipment.entity.DeviceUser"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO device_user (device_id, user_id, is_owner, added_time)
+        VALUES (#{deviceId}, #{userId}, #{isOwner}, NOW())
+    </insert>
+
+    <select id="selectDeviceUserByDeviceIdAndUserId" resultMap="DeviceUserResultMap">
+        SELECT * FROM device_user
+        WHERE device_id = #{deviceId} AND user_id = #{userId}
+    </select>
+
+    <select id="existsDeviceUser" resultType="boolean">
+        SELECT COUNT(1) > 0 FROM device_user
+        WHERE device_id = #{deviceId} AND user_id = #{userId}
+    </select>
+
+    <delete id="deleteDeviceUser">
+        DELETE FROM device_user
+        WHERE device_id = #{deviceId} AND user_id = #{userId}
+    </delete>
+
+    <delete id="deleteDeviceUserByDeviceId" parameterType="Long">
+        DELETE FROM device_user WHERE device_id = #{deviceId}
+    </delete>
+
+    <select id="selectDeviceUsersByDeviceId" parameterType="Long" resultMap="DeviceUserResultMap">
+        SELECT * FROM device_user WHERE device_id = #{deviceId}
+    </select>
+
+    <select id="selectDeviceUsersByUserId" parameterType="Long" resultMap="DeviceUserResultMap">
+        SELECT * FROM device_user WHERE user_id = #{userId}
+    </select>
+
+</mapper>

@@ -45,7 +45,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         // 公开接口
                         .requestMatchers(
-                                "/weather/**",
+//                                "/weather/**",
+//                                "/user/**",
+//                                "/device/**",
                                 "/auth/login",
                                 "/auth/register",
                                 "/auth/validate",

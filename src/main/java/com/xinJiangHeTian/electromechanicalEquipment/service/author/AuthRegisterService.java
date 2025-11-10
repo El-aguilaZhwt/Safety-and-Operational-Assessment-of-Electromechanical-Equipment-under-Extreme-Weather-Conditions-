@@ -1,9 +1,9 @@
 package com.xinJiangHeTian.electromechanicalEquipment.service.author;
 
 
-import com.xinJiangHeTian.electromechanicalEquipment.Dto.author.login.LoginResponseDto;
-import com.xinJiangHeTian.electromechanicalEquipment.Dto.author.register.RegisterRequestDto;
-import com.xinJiangHeTian.electromechanicalEquipment.Dto.author.register.RegisterResponseDto;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.login.LoginResponseDto;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.register.RegisterRequestDto;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.register.RegisterResponseDto;
 import com.xinJiangHeTian.electromechanicalEquipment.entity.User;
 import com.xinJiangHeTian.electromechanicalEquipment.mapper.UserMapper;
 import com.xinJiangHeTian.electromechanicalEquipment.util.PasswordUtil;

@@ -1,6 +1,6 @@
 package com.xinJiangHeTian.electromechanicalEquipment.service.author;
 
-import com.xinJiangHeTian.electromechanicalEquipment.Dto.author.Avatar.AvatarStorageResult;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.Avatar.AvatarStorageResult;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;

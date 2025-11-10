@@ -1,9 +1,9 @@
 package com.xinJiangHeTian.electromechanicalEquipment.service.author;
 
 
-import com.xinJiangHeTian.electromechanicalEquipment.Dto.author.Avatar.AvatarInfo;
-import com.xinJiangHeTian.electromechanicalEquipment.Dto.author.Avatar.AvatarStorageResult;
-import com.xinJiangHeTian.electromechanicalEquipment.Dto.author.Avatar.AvatarUploadResult;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.Avatar.AvatarInfo;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.Avatar.AvatarStorageResult;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.Avatar.AvatarUploadResult;
 import com.xinJiangHeTian.electromechanicalEquipment.entity.User;
 import com.xinJiangHeTian.electromechanicalEquipment.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;

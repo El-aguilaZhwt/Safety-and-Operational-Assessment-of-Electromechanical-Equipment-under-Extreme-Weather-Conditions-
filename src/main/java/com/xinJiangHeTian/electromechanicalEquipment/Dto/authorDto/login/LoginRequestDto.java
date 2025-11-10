@@ -1,4 +1,4 @@
-package com.xinJiangHeTian.electromechanicalEquipment.Dto.author.login;
+package com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.login;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

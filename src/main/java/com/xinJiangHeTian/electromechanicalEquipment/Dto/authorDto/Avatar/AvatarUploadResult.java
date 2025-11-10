@@ -1,4 +1,4 @@
-package com.xinJiangHeTian.electromechanicalEquipment.Dto.author.Avatar;
+package com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.Avatar;
 
 import lombok.Builder;
 import lombok.Data;

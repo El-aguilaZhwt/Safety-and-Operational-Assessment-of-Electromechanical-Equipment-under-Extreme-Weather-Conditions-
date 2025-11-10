@@ -1,4 +1,4 @@
-package com.xinJiangHeTian.electromechanicalEquipment.Dto.author.register;
+package com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.register;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

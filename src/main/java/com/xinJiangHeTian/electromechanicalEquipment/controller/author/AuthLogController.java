@@ -1,8 +1,8 @@
 package com.xinJiangHeTian.electromechanicalEquipment.controller.author;
 
 import com.xinJiangHeTian.electromechanicalEquipment.Dto.ApiResponse;
-import com.xinJiangHeTian.electromechanicalEquipment.Dto.author.login.LoginRequestDto;
-import com.xinJiangHeTian.electromechanicalEquipment.Dto.author.login.LoginResponseDto;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.login.LoginRequestDto;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.login.LoginResponseDto;
 import com.xinJiangHeTian.electromechanicalEquipment.service.author.AuthLogService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

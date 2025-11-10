@@ -1,7 +1,7 @@
 package com.xinJiangHeTian.electromechanicalEquipment.service.author;
 
 
-import com.xinJiangHeTian.electromechanicalEquipment.Dto.author.login.LoginResponseDto;
+import com.xinJiangHeTian.electromechanicalEquipment.Dto.authorDto.login.LoginResponseDto;
 import com.xinJiangHeTian.electromechanicalEquipment.entity.User;
 import com.xinJiangHeTian.electromechanicalEquipment.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;

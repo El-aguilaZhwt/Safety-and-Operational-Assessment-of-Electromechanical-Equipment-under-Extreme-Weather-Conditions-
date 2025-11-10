@@ -17,6 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author El aguila
+ * @version 1.0
+ * @description: 天气系统服务层
+ * @date 2025/11/10 10:42
+ */
+
 @Service
 public class WeatherService {
     @Value("${weather.api.key}")
@@ -35,6 +42,7 @@ public class WeatherService {
             "且末县", Map.of("lon", 85.5167, "lat", 38.1167)
     );
 
+    //实时气象数据返回
     public CurrentWeather getWeatherData(Double lon, Double lat) throws Exception {
         String weatherUrl = String.format(
                 "https://devapi.qweather.com/v7/weather/now?key=%s&location=%s,%s",
@@ -74,7 +82,7 @@ public class WeatherService {
 
         return weatherData;
     }
-
+    //通过和风天气api返回未来七日天气预报数据
     public List<ForecastData> getSevenDayWeather(Double lon, Double lat) throws Exception {
         String weatherUrl = String.format(
                 "https://devapi.qweather.com/v7/weather/7d?key=%s&location=%s,%s",

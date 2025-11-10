@@ -26,9 +26,15 @@ public interface UserMapper {
 
     @Update("UPDATE users SET email = #{email}, avatar_url = #{avatarUrl}, bio = #{bio}, updated_at = NOW() WHERE id = #{id}")
     int update(User user);
-
+    //密码更新
     @Update("UPDATE users SET password = #{password} WHERE id = #{id}")
     int updatePassword(@Param("id") Long id, @Param("password") String password);
+    //邮箱更新
+    @Update("UPDATE users SET email = #{email} WHERE id = #{id}")
+    int updateEmail(@Param("id") Long id, @Param("email") String email);
+    //用户身份更新
+    @Update("UPDATE users SET role = #{role} WHERE id = #{id}")
+    int updateRole(@Param("id") Long userId, @Param("role") String newRole);
 
     @Delete("DELETE FROM users WHERE id = #{id}")
     int delete(Long id);
