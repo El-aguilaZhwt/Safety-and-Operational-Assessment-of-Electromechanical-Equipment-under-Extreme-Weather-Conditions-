@@ -44,7 +44,7 @@
 - **请求头**:
 Content-Type: application/json
 - **请求体**:
-json
+```json
 {
 "username": "string, required, 3-20位",
 "email": "string, required, 邮箱格式",
@@ -52,8 +52,9 @@ json
 "confirmPassword": "string, required",
 "bio": "string, optional, 个人简介"
 }
+```
 - **成功响应(200)**:
-json
+```json
 {
 "success": true,
 "message": "注册成功",
@@ -71,8 +72,9 @@ json
 "timestamp": "2024-01-01T10:00:00.000",
 "code": 200
 }
+```
 - **错误响应(400)**:
-json
+```json
 {
 "success": false,
 "message": "用户名已存在",
@@ -80,6 +82,7 @@ json
 "timestamp": "2024-01-01T10:00:00.000",
 "code": 400
 }
+```
 ### 1.2 用户登录
 
 **接口说明**: 用户登录获取JWT令牌（用户身份分为GUEST、USER、ADMIN）
@@ -88,14 +91,15 @@ json
 - **请求头**:
 Content-Type: application/json
 - **请求体**:
-json
+```json
 {
 "username": "string, required",
 "password": "string, required",
 "role": "string, required"
 }
+```
 - **成功响应(200)**:
-json
+```json
 {
 "success": true,
 "message": "登录成功",
@@ -115,6 +119,7 @@ json
 "timestamp": "2024-01-01T10:00:00.000",
 "code": 200
 }
+```
 ### 1.3 注册并自动登录
 
 **接口说明**: 注册成功后自动登录
@@ -133,7 +138,7 @@ Content-Type: application/json
 - **请求头**:
 Authorization: Bearer {token}
 - **成功响应(200)**:
-json
+```json
 {
 "success": true,
 "message": "令牌有效",
@@ -141,6 +146,7 @@ json
 "timestamp": "2024-01-01T10:00:00.000",
 "code": 200
 }
+```
 ---
 
 ## 2. 天气数据接口 (WeatherData)
@@ -154,12 +160,13 @@ json
 Content-Type: application/json
 Authorization: Bearer {token}
 - **请求体**:
-json
+```json
 {
 "county": "县名称"
 }
+```
 - **成功响应(200)**:
-json
+```json
 {
 "success": true,
 "message": "实时数据响应成功",
@@ -176,6 +183,7 @@ json
 "code": 200,
 "timestamp": "2025-11-08T23:38:41.213105600"
 }
+```
 ### 2.2 县初始实时气象数据查询
 
 **接口说明**: 初始加载的县实时气象数据查讯（默认和田县）
@@ -187,7 +195,7 @@ Authorization: Bearer {token}
 - **请求体**: 无
 
 - **成功响应(200)**:
-json
+```json
 {
 "success": true,
 "message": "实时数据响应成功",
@@ -204,6 +212,7 @@ json
 "code": 200,
 "timestamp": "2025-11-08T23:38:41.213105600"
 }
+```
 ### 2.3 未来七天气象数据查询（经纬度方法）
 
 **接口说明**: 用经纬度查询未来七天气象数据
@@ -220,7 +229,7 @@ Authorization: Bearer {token}
 | lat | string 或 number | 是 | 目标位置的纬度（Latitude），例如：39.9042 |
 
 - **成功响应(200)**:
-json
+```json
 {
 "success": true,
 "message": "成功",
@@ -288,6 +297,7 @@ json
 "code": 200,
 "timestamp": "2025-11-09T10:04:46.653006500"
 }
+```
 ### 2.4 未来七天气象数据查询（县名称方法）
 
 **接口说明**: 用经纬度查询未来七天气象数据
@@ -297,10 +307,11 @@ json
 Content-Type: application/json
 Authorization: Bearer {token}
 - **请求体**:
-json
+```json
 {
 "county": "县名称"
 }
+```
 - **成功响应（200）**: 同2.3成功响应
 
 ---
@@ -316,14 +327,15 @@ json
 Content-Type: application/json
 Authorization: Bearer {token}
 - **请求体**:
-json
+```json
 {
 "currentUserId": "newuser",
 "currentPassword": "newpass123",
 "newPassword": "newpass1234"
 }
+```
 - **成功响应（200）**:
-json
+```json
 {
 "success": true,
 "message": "密码修改成功",
@@ -331,6 +343,7 @@ json
 "code": 200,
 "timestamp": "2025-11-09T22:49:20.345663500"
 }
+```
 ### 3.2 用户邮箱修改
 
 **接口说明**: 用用户输入的新邮箱替换旧邮箱
@@ -340,14 +353,15 @@ json
 Content-Type: application/json
 Authorization: Bearer {token}
 - **请求体**:
-json
+```json
 {
 "userId": 11,
 "password": "newpass123",
 "newEmail": "new@example.com"
 }
+```
 - **成功响应（200）**:
-json
+```json
 {
 "success": true,
 "message": "email修改成功",
@@ -355,6 +369,7 @@ json
 "code": 200,
 "timestamp": "2025-11-09T23:28:18.252426500"
 }
+```
 ### 3.3 用户身份修改
 
 **接口说明**: 修改用户角色
@@ -364,14 +379,15 @@ json
 Content-Type: application/json
 Authorization: Bearer {token}
 - **请求体**:
-json
+```json
 {
 "userId": "11",
 "password": "newpass123",
 "newRole": "ADMIN"
 }
+```
 - **成功响应（200）**:
-json
+```json
 {
 "success": true,
 "message": "email修改成功",
@@ -379,7 +395,317 @@ json
 "code": 200,
 "timestamp": "2025-11-09T23:43:14.653424"
 }
+```
+---
 
+## 4. 设备管理接口 (DeviceManage)
+
+### 4.1 创建设备
+
+**接口说明**: 创建新的设备，创建者自动成为设备所有者
+
+- **请求URL**: POST `/device`
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**:
+```json
+{
+"name": "温室大棚设备",
+"userId": 123,
+"minTemperature": 15.0,
+"maxTemperature": 30.0,
+"minHumidity": 40.0,
+"maxHumidity": 80.0,
+"minWindSpeed": 0.0,
+"maxWindSpeed": 20.0,
+"isPublic": true
+}
+```
+- **成功响应（200）**:
+```json
+{
+"success": true,
+"message": "设备创建成功",
+"data": {
+"id": 2,
+"name": "温室大棚设备",
+"minTemperature": 15.0,
+"maxTemperature": 30.0,
+"minHumidity": 40.0,
+"maxHumidity": 80.0,
+"minWindSpeed": 0.0,
+"maxWindSpeed": 20.0,
+"isPublic": true,
+"isOwner": true,
+"createdTime": "2025-11-10T14:19:29.4387618"
+},
+"code": 200,
+"timestamp": "2025-11-10T14:19:29.454229100"
+}
+```
+### 4.2 更新设备信息
+
+**接口说明**: 更新设备信息（仅设备所有者可操作）
+
+- **请求URL**: PUT `/device/{deviceId}`
+- **路径参数**:
+  - `deviceId`: 设备ID
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**:
+```json
+{
+"userId": "11",
+"name": "更新后的设备名称",
+"minTemperature": 10.0,
+"maxTemperature": 35.0,
+"minHumidity": 35.0,
+"maxHumidity": 85.0,
+"minWindSpeed": 0.0,
+"maxWindSpeed": 25.0,
+"isPublic": true
+}
+```
+- **成功响应（200）**:
+```json
+{
+"success": true,
+"message": "成功",
+"data": {
+"id": 2,
+"name": "更新后的设备名称",
+"minTemperature": 10.0,
+"maxTemperature": 35.0,
+"minHumidity": 35.0,
+"maxHumidity": 85.0,
+"minWindSpeed": 0.0,
+"maxWindSpeed": 25.0,
+"isPublic": true,
+"isOwner": true,
+"createdTime": "2025-11-10T14:26:39.4791187"
+},
+"code": 200,
+"timestamp": "2025-11-10T14:26:39.484485400"
+}
+```
+### 4.3 删除设备
+
+**接口说明**: 删除设备及其所有关联（仅设备所有者可操作）
+
+- **请求URL**: DELETE `/device/{deviceId}/{userId}`
+- **路径参数**:
+  - `deviceId`: 设备ID
+  - `userId`: 用户ID
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**: 无
+
+- **成功响应（200）**:
+```json
+{
+"success": true,
+"message": "设备删除成功",
+"data": null,
+"code": 200,
+"timestamp": "2025-11-10T14:31:28.306070200"
+}
+```
+### 4.4 获取我的设备
+
+**接口说明**: 获取当前用户拥有的所有设备（包括自己创建的和添加的公开设备）
+
+- **请求URL**: GET `/device/my/{userId}`
+- **路径参数**:
+  - `userId`: 用户ID
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**: 无
+
+- **成功响应（200）**:
+```json
+{
+"success": true,
+"message": "我的设备列表获取成功",
+"data": [
+{
+"id": 3,
+"name": "温室大棚设备",
+"minTemperature": 15.00,
+"maxTemperature": 30.00,
+"minHumidity": 40.00,
+"maxHumidity": 80.00,
+"minWindSpeed": 0.00,
+"maxWindSpeed": 20.00,
+"isPublic": true,
+"isOwner": true,
+"createdTime": "2025-11-10T14:35:43.1774727"
+},
+{
+"id": 4,
+"name": "温室大棚设备2",
+"minTemperature": 15.00,
+"maxTemperature": 30.00,
+"minHumidity": 40.00,
+"maxHumidity": 80.00,
+"minWindSpeed": 0.00,
+"maxWindSpeed": 20.00,
+"isPublic": true,
+"isOwner": true,
+"createdTime": "2025-11-10T14:35:43.178488"
+}
+],
+"code": 200,
+"timestamp": "2025-11-10T14:35:43.179475"
+}
+```
+### 4.5 获取公开设备
+
+**接口说明**: 获取所有公开的设备
+
+- **请求URL**: GET `/device/public`
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**: 无
+
+- **成功响应（200）**:
+```json
+{
+"success": true,
+"message": "我的设备列表获取成功",
+"data": [
+{
+"id": 3,
+"name": "温室大棚设备",
+"minTemperature": 15.00,
+"maxTemperature": 30.00,
+"minHumidity": 40.00,
+"maxHumidity": 80.00,
+"minWindSpeed": 0.00,
+"maxWindSpeed": 20.00,
+"isPublic": true,
+"isOwner": true,
+"createdTime": "2025-11-10T14:35:43.1774727"
+},
+{
+"id": 4,
+"name": "温室大棚设备2",
+"minTemperature": 15.00,
+"maxTemperature": 30.00,
+"minHumidity": 40.00,
+"maxHumidity": 80.00,
+"minWindSpeed": 0.00,
+"maxWindSpeed": 20.00,
+"isPublic": true,
+"isOwner": true,
+"createdTime": "2025-11-10T14:35:43.178488"
+}
+],
+"code": 200,
+"timestamp": "2025-11-10T14:35:43.179475"
+}
+```
+### 4.6 添加设备到我的
+
+**接口说明**: 将公开设备添加到当前用户的设备列表中
+
+- **请求URL**: POST `/device/add-to-my`
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**:
+```json
+{
+"deviceId": 5,
+"userId": 123
+}
+```
+（注意userId是当前用户的id而不是设备主人的id）
+- **成功响应（200）**:
+```json
+{
+"success": true,
+"message": "成功",
+"data": null,
+"code": 200,
+"timestamp": "2025-11-10T14:43:48.680134300"
+}
+```
+### 4.7 从我的移除设备
+
+**接口说明**: 从当前用户的设备列表中移除设备（不能移除自己创建的设备）
+
+- **请求URL**: DELETE `/device/remove-from-my`
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**:
+```json
+{
+"deviceId": 5,
+"userId": 123
+}
+```
+- **成功响应（200）**:
+```json
+{
+"success": true,
+"message": "成功",
+"data": null,
+"code": 200,
+"timestamp": "2025-11-10T14:48:38.337744900"
+}
+```
+### 4.8 获取设备详情
+
+**接口说明**: 获取设备详细信息（需要有访问权限：设备所有者、已添加用户或设备公开）
+
+- **请求URL**: GET `/device/{deviceId}/{userId}`
+- **路径参数**:
+  - `deviceId`: 设备ID
+  - `userId`: 用户ID
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**: 无
+
+- **成功响应（200）**:
+```json
+{
+"success": true,
+"message": "成功",
+"data": {
+"id": 5,
+"name": "公开设备A",
+"minTemperature": 15.00,
+"maxTemperature": 30.00,
+"minHumidity": 40.00,
+"maxHumidity": 80.00,
+"minWindSpeed": 0.00,
+"maxWindSpeed": 20.00,
+"isPublic": true,
+"isOwner": true,
+"createdTime": "2025-11-10T14:52:01.1018626"
+},
+"code": 200,
+"timestamp": "2025-11-10T14:52:01.101862600"
+}
+```
+---
+
+## 5. 安全评估接口 (SecurityEvaluation)
+
+### 5.1 暂未开发
+
+---
+
+## 6. 文件上传接口 (FileUpload)
+
+### 6.1 暂未开发
 
 ## 📈 技术栈
 
