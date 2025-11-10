@@ -10,45 +10,376 @@
 
 基于数字孪生技术的极端气候机电设备安全运行监测与评估平台。系统实时监控新疆和田地区机电设备运行状态，结合气象数据进行智能分析和预警，为高海拔、多风沙、极端温差环境下的设备安全提供科学保障。
 
-## 📊 系统特色
+## 📊 接口文档
+# 新疆和田地区机电设备极端天气安全评估系统 - 接口文档
 
-### 🖥️ 数字孪生可视化大屏
-- **3D 设备建模**：关键机电设备三维可视化展示
-- **实时数据监控**：温度、湿度、风速、PM2.5/PM10 等多维度数据实时呈现
-- **气象预警集成**：极端天气预警与运行风险评估
-- **地理信息融合**：和田地区地理信息系统与设备分布结合
-![image](https://github.com/El-aguilaZhwt/Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-/blob/main/screen/%E6%95%B0%E5%AD%97%E5%AD%AA%E7%94%9F%E5%A4%A7%E5%B1%8F.png)
-![image](https://github.com/El-aguilaZhwt/Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-/blob/main/screen/%E5%8A%A8%E7%94%BB.png)
+## 项目信息
 
-### ⚡ 智能评估预警
-- **多因子风险评估**：基于气象数据的设备运行风险智能评估
-- **预警等级体系**：蓝、黄、橙、红四级预警机制
-- **应急预案管理**：极端气候下的设备防护解决方案库
-- **历史数据分析**：运行数据趋势分析与预测
+| 项目 | 内容 |
+|------|------|
+| 系统名称 | 机电设备极端天气安全评估系统 |
+| 版本 | v1.0.0 |
+| 基础URL | http://localhost:8080/api |
+| 文档日期 | 2025-10-19 |
+| 技术栈 | Spring Boot 3.5.7 + MyBatis + MySQL + Java 21 |
 
+## 目录
 
-## 🔧 核心功能模块
+1. [认证接口](#1-认证接口-authentication)
+2. [天气数据接口](#2-天气数据接口-weatherdata)
+3. [用户身份管理接口](#3-用户身份管理接口-usermodify)
+4. [设备管理接口](#4-设备管理接口-devicemanage)
+5. [安全评估接口](#5-安全评估接口-securityevaluation)
+6. [文件上传接口](#6-文件上传接口-fileupload)
 
-### 1. 用户认证管理
-- 多角色权限控制（管理员、操作员、访客）
-- 会话管理安全机制
-- 操作日志记录
-![image](https://github.com/El-aguilaZhwt/Safety-and-Operational-Assessment-of-Electromechanical-Equipment-under-Extreme-Weather-Conditions-/blob/main/screen/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2.png)
+---
 
-### 2. 实时数据监控
-- 传感器数据采集与存储
-- 气象API数据集成
-- 数据可视化展示
+## 1. 认证接口 (Authentication)
 
-### 3. 风险评估引擎
-- 极端气候影响因子分析
-- 设备运行状态评估
-- 风险等级自动判定
+### 1.1 用户注册
 
-### 4. 预警通知系统
-- 多渠道预警发布
-- 应急预案触发
-- 处理结果跟踪
+**接口说明**: 新用户注册
+
+- **请求URL**: POST `/auth/register`
+- **请求头**:
+Content-Type: application/json
+- **请求体**:
+json
+{
+"username": "string, required, 3-20位",
+"email": "string, required, 邮箱格式",
+"password": "string, required, 6-20位",
+"confirmPassword": "string, required",
+"bio": "string, optional, 个人简介"
+}
+- **成功响应(200)**:
+json
+{
+"success": true,
+"message": "注册成功",
+"data": {
+"success": true,
+"message": "注册成功",
+"user": {
+"id": 1,
+"username": "testuser",
+"email": "test@example.com",
+"role": "USER",
+"bio": "摄影爱好者"
+}
+},
+"timestamp": "2024-01-01T10:00:00.000",
+"code": 200
+}
+- **错误响应(400)**:
+json
+{
+"success": false,
+"message": "用户名已存在",
+"data": null,
+"timestamp": "2024-01-01T10:00:00.000",
+"code": 400
+}
+### 1.2 用户登录
+
+**接口说明**: 用户登录获取JWT令牌（用户身份分为GUEST、USER、ADMIN）
+
+- **请求URL**: POST `/auth/login`
+- **请求头**:
+Content-Type: application/json
+- **请求体**:
+json
+{
+"username": "string, required",
+"password": "string, required",
+"role": "string, required"
+}
+- **成功响应(200)**:
+json
+{
+"success": true,
+"message": "登录成功",
+"data": {
+"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+"tokenType": "Bearer",
+"expiresIn": 86399000,
+"user": {
+"id": 1,
+"username": "admin",
+"email": "admin@jingangroup.com",
+"role": "ADMIN",
+"avatarUrl": null,
+"bio": "系统管理员"
+}
+},
+"timestamp": "2024-01-01T10:00:00.000",
+"code": 200
+}
+### 1.3 注册并自动登录
+
+**接口说明**: 注册成功后自动登录
+
+- **请求URL**: POST `/auth/register-login`
+- **请求头**:
+Content-Type: application/json
+- **请求体**: 同注册接口
+- **响应**: 同登录接口响应格式
+
+### 1.4 验证令牌
+
+**接口说明**: 验证JWT令牌有效性
+
+- **请求URL**: GET `/auth/validate`
+- **请求头**:
+Authorization: Bearer {token}
+- **成功响应(200)**:
+json
+{
+"success": true,
+"message": "令牌有效",
+"data": true,
+"timestamp": "2024-01-01T10:00:00.000",
+"code": 200
+}
+---
+
+## 2. 天气数据接口 (WeatherData)
+
+### 2.1 县实时气象数据查询
+
+**接口说明**: 每个县实时气象数据查询
+
+- **请求URL**: POST `/weather/county-data`
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**:
+json
+{
+"county": "县名称"
+}
+- **成功响应(200)**:
+json
+{
+"success": true,
+"message": "实时数据响应成功",
+"data": {
+"currentWeather": {
+"temperature": 2.0,
+"humidity": 24.0,
+"windSpeed": 3.0,
+"pm25": 133.0,
+"pm10": 304.0
+},
+"forecastData": null
+},
+"code": 200,
+"timestamp": "2025-11-08T23:38:41.213105600"
+}
+### 2.2 县初始实时气象数据查询
+
+**接口说明**: 初始加载的县实时气象数据查讯（默认和田县）
+
+- **请求URL**: POST `/weather/initial-data`
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**: 无
+
+- **成功响应(200)**:
+json
+{
+"success": true,
+"message": "实时数据响应成功",
+"data": {
+"currentWeather": {
+"temperature": 2.0,
+"humidity": 24.0,
+"windSpeed": 3.0,
+"pm25": 133.0,
+"pm10": 304.0
+},
+"forecastData": null
+},
+"code": 200,
+"timestamp": "2025-11-08T23:38:41.213105600"
+}
+### 2.3 未来七天气象数据查询（经纬度方法）
+
+**接口说明**: 用经纬度查询未来七天气象数据
+
+- **请求URL**: GET `/weather/forecast`
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求参数**:
+
+| 参数名 | 类型 | 必填 | 说明 |
+|--------|------|------|------|
+| lon | string 或 number | 是 | 目标位置的经度（Longitude），例如：116.4074 |
+| lat | string 或 number | 是 | 目标位置的纬度（Latitude），例如：39.9042 |
+
+- **成功响应(200)**:
+json
+{
+"success": true,
+"message": "成功",
+"data": {
+"currentWeather": null,
+"forecastData": [
+{
+"date": "2025-11-09",
+"temperatureMin": -3.0,
+"temperatureMax": 11.0,
+"humidity": 21.0,
+"windSpeed": 3.0,
+"windDirection": 0
+},
+{
+"date": "2025-11-10",
+"temperatureMin": -3.0,
+"temperatureMax": 13.0,
+"humidity": 18.0,
+"windSpeed": 3.0,
+"windDirection": 45
+},
+{
+"date": "2025-11-11",
+"temperatureMin": -2.0,
+"temperatureMax": 16.0,
+"humidity": 20.0,
+"windSpeed": 3.0,
+"windDirection": 45
+},
+{
+"date": "2025-11-12",
+"temperatureMin": -2.0,
+"temperatureMax": 12.0,
+"humidity": 20.0,
+"windSpeed": 3.0,
+"windDirection": 315
+},
+{
+"date": "2025-11-13",
+"temperatureMin": -2.0,
+"temperatureMax": 14.0,
+"humidity": 19.0,
+"windSpeed": 3.0,
+"windDirection": 90
+},
+{
+"date": "2025-11-14",
+"temperatureMin": -1.0,
+"temperatureMax": 15.0,
+"humidity": 16.0,
+"windSpeed": 3.0,
+"windDirection": 45
+},
+{
+"date": "2025-11-15",
+"temperatureMin": -2.0,
+"temperatureMax": 12.0,
+"humidity": 17.0,
+"windSpeed": 3.0,
+"windDirection": 315
+}
+]
+},
+"code": 200,
+"timestamp": "2025-11-09T10:04:46.653006500"
+}
+### 2.4 未来七天气象数据查询（县名称方法）
+
+**接口说明**: 用经纬度查询未来七天气象数据
+
+- **请求URL**: GET `/weather/forecast-county`
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**:
+json
+{
+"county": "县名称"
+}
+- **成功响应（200）**: 同2.3成功响应
+
+---
+
+## 3. 用户身份管理接口 (UserModify)
+
+### 3.1 用户密码修改
+
+**接口说明**: 用用户输入的新密码替换旧密码
+
+- **请求URL**: PUT `/user/password-modify`
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**:
+json
+{
+"currentUserId": "newuser",
+"currentPassword": "newpass123",
+"newPassword": "newpass1234"
+}
+- **成功响应（200）**:
+json
+{
+"success": true,
+"message": "密码修改成功",
+"data": null,
+"code": 200,
+"timestamp": "2025-11-09T22:49:20.345663500"
+}
+### 3.2 用户邮箱修改
+
+**接口说明**: 用用户输入的新邮箱替换旧邮箱
+
+- **请求URL**: PUT `/user/email-modify`
+- **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**:
+json
+{
+"userId": 11,
+"password": "newpass123",
+"newEmail": "new@example.com"
+}
+- **成功响应（200）**:
+json
+{
+"success": true,
+"message": "email修改成功",
+"data": null,
+"code": 200,
+"timestamp": "2025-11-09T23:28:18.252426500"
+}
+### 3.3 用户身份修改
+
+**接口说明**: 修改用户角色
+
+- **请求URL**: PUT `/user/role-modify`
+ **请求头**:
+Content-Type: application/json
+Authorization: Bearer {token}
+- **请求体**:
+json
+{
+"userId": "11",
+"password": "newpass123",
+"newRole": "ADMIN"
+}
+- **成功响应（200）**:
+json
+{
+"success": true,
+"message": "email修改成功",
+"data": null,
+"code": 200,
+"timestamp": "2025-11-09T23:43:14.653424"
+}
+
 
 ## 📈 技术栈
 
